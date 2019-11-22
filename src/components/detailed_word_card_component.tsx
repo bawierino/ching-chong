@@ -3,7 +3,7 @@ import { Word } from '../data/structures/word';
 import { joinify } from '../utils/joinify';
 import { WordCardComponent } from './word_card_component';
 import { LoudspeakerIconComponent } from './loudspeaker_icon_component';
-import { speechSynthesify } from '../utils/speech_synthesify';
+import { speechSynthesify, canSpeechSynthesify } from '../utils/speech_synthesify';
 
 export interface DetailedWordCardComponentProps {
 	word: Word;
@@ -74,11 +74,13 @@ export function DetailedWordCardComponent(props: DetailedWordCardComponentProps)
 	return (
 		<React.Fragment>
 			<div className={`word detailed ${isMultiCharacterWord() ? 'multi-character' : ''}`}>
-				<LoudspeakerIconComponent
-					onClick={() => {
-						speechSynthesify(logogram);
-					}}
-				/>
+				{canSpeechSynthesify() && (
+					<LoudspeakerIconComponent
+						onClick={() => {
+							speechSynthesify(logogram);
+						}}
+					/>
+				)}
 				{renderWordDetails()}
 			</div>
 			{isMultiCharacterWord() && renderCharacterInformation()}
