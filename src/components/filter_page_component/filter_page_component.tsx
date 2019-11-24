@@ -5,6 +5,7 @@ import { useTextInput } from '../../hooks/use_text_input';
 import { DetailedWordCardComponent } from '../detailed_word_card_component';
 import { WordCardComponent } from '../word_card_component';
 import { usePageFilter } from './use_page_filter';
+import { routerService } from '../../services/router_service';
 
 export function FilterPageComponent(words: Word[]): JSX.Element {
 	const meaningFilterTextInput = useTextInput('');
@@ -20,16 +21,13 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 		exactPinYinCheckbox.checked
 	);
 
-	const [ detailedWordId, setDetailedWordId ] = React.useState(undefined as string | undefined);
-	const [ backCharacterId, setBackCharacterId ] = React.useState(undefined as string | undefined);
-
 	const scrollTopRef: React.MutableRefObject<number> = React.useRef(0);
 
 	function renderPageFilters(): JSX.Element {
 		return (
 			<div className="filter-bar">
-				{detailedWordId ? (
-					<button onClick={closeDetailedWord}>←</button>
+				{hasDetailedWord() ? (
+					<button onClick={routerService.navigateBack}>←</button>
 				) : (
 					<React.Fragment>
 						{
@@ -100,8 +98,8 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 					<WordCardComponent
 						id={result.id}
 						onClick={(id) => {
-							setDetailedWordId(id);
 							scrollTopRef.current = document.documentElement.scrollTop;
+							handleCardClick(id);
 						}}
 						{...result}
 						key={result.id}
@@ -114,34 +112,19 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 	}
 
 	function renderDetailedWord(): JSX.Element {
-		if (detailedWordId !== undefined) {
+		if (hasDetailedWord()) {
+			const id = getDetailedWordId();
 			return (
 				<DetailedWordCardComponent
-					word={getWordById(detailedWordId)}
-					id={detailedWordId}
-					onBack={closeDetailedWord}
+					word={getWordById(id)}
+					id={id}
 					onSubCharacterClick={(id) => {
-						setBackCharacterId(detailedWordId);
-						setDetailedWordId(id);
+						handleCardClick(id);
 					}}
 				/>
 			);
 		} else {
 			return <React.Fragment />;
-		}
-	}
-
-	function closeDetailedWord(): void {
-		if (detailedWordId) {
-			if (backCharacterId) {
-				setDetailedWordId(backCharacterId);
-				setBackCharacterId(undefined);
-			} else {
-				setDetailedWordId(undefined);
-				requestAnimationFrame(() => {
-					document.documentElement.scrollTop = scrollTopRef.current;
-				});
-			}
 		}
 	}
 
@@ -161,11 +144,28 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 		}
 	}
 
+	function handleCardClick(id: string): void {
+		routerService.navigateToPath(id);
+		document.documentElement.scrollTop = 0;
+	}
+
+	function hasDetailedWord(): boolean {
+		return routerService.hasPath();
+	}
+
+	function getDetailedWordId(): string {
+		if (hasDetailedWord()) {
+			return routerService.getPath();
+		}
+
+		return undefined;
+	}
+
 	return (
 		<React.Fragment>
 			<div className="filter-page">
 				{renderPageFilters()}
-				<div className="words">{detailedWordId ? renderDetailedWord() : renderResults()} </div>
+				<div className="words">{hasDetailedWord() ? renderDetailedWord() : renderResults()} </div>
 			</div>
 		</React.Fragment>
 	);

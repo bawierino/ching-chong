@@ -8,24 +8,13 @@ import { speechSynthesify, canSpeechSynthesify } from '../utils/speech_synthesif
 export interface DetailedWordCardComponentProps {
 	word: Word;
 	id: string;
-	onBack: (id: string) => void;
 	onSubCharacterClick: (id: string) => void;
 }
 
 export function DetailedWordCardComponent(props: DetailedWordCardComponentProps): JSX.Element {
-	const { onBack, id, word, onSubCharacterClick } = props;
+	const { word, onSubCharacterClick } = props;
 	const { characters, meaning, remarks } = word;
 	const logogram = characters.map((c) => c.logogram).join('');
-
-	function close(e: KeyboardEvent): void {
-		if (e.key === 'Escape') {
-			onBack(id);
-		}
-	}
-	React.useEffect(() => {
-		window.addEventListener('keydown', close, true);
-		return () => window.removeEventListener('keydown', close, true);
-	});
 
 	function renderWordDetails(): JSX.Element {
 		return (
