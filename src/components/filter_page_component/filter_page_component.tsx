@@ -6,13 +6,19 @@ import { DetailedWordCardComponent } from '../detailed_word_card_component';
 import { WordCardComponent } from '../word_card_component';
 import { usePageFilter } from './use_page_filter';
 import { routerService } from '../../services/router_service';
+import { useScrollTopPersistance } from '../../hooks/use_scroll_top_persistance';
 
 export function FilterPageComponent(words: Word[]): JSX.Element {
+	const hasDetailedWord = routerService.hasPath();
+
+	const { saveScrollTop } = useScrollTopPersistance(!hasDetailedWord);
+
 	const meaningFilterTextInput = useTextInput('');
 	const pinYinFilterTextInput = useTextInput('');
 	const exactPinYinCheckbox = useCheckbox(false);
 	const hidePinYinCheckbox = useCheckbox(false);
 	const hideMeaningCheckbox = useCheckbox(false);
+
 	const results = usePageFilter(
 		[],
 		words,
@@ -21,12 +27,10 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 		exactPinYinCheckbox.checked
 	);
 
-	const scrollTopRef: React.MutableRefObject<number> = React.useRef(0);
-
 	function renderPageFilters(): JSX.Element {
 		return (
 			<div className="filter-bar">
-				{hasDetailedWord() ? (
+				{hasDetailedWord ? (
 					<button onClick={routerService.navigateBack}>←</button>
 				) : (
 					<React.Fragment>
@@ -98,7 +102,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 					<WordCardComponent
 						id={result.id}
 						onClick={(id) => {
-							scrollTopRef.current = document.documentElement.scrollTop;
+							saveScrollTop();
 							handleCardClick(id);
 						}}
 						{...result}
@@ -112,7 +116,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 	}
 
 	function renderDetailedWord(): JSX.Element {
-		if (hasDetailedWord()) {
+		if (hasDetailedWord) {
 			const id = getDetailedWordId();
 			return (
 				<DetailedWordCardComponent
@@ -149,15 +153,10 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 		document.documentElement.scrollTop = 0;
 	}
 
-	function hasDetailedWord(): boolean {
-		return routerService.hasPath();
-	}
-
 	function getDetailedWordId(): string {
-		if (hasDetailedWord()) {
+		if (hasDetailedWord) {
 			return routerService.getPath();
 		}
-
 		return undefined;
 	}
 
@@ -165,7 +164,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 		<React.Fragment>
 			<div className="filter-page">
 				{renderPageFilters()}
-				<div className="words">{hasDetailedWord() ? renderDetailedWord() : renderResults()} </div>
+				<div className="words">{hasDetailedWord ? renderDetailedWord() : renderResults()} </div>
 			</div>
 		</React.Fragment>
 	);
