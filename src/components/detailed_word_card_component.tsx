@@ -17,20 +17,23 @@ export function DetailedWordCardComponent(props: DetailedWordCardComponentProps)
 	const logogram = characters.map((c) => c.logogram).join('');
 
 	function renderWordDetails(): JSX.Element {
+		const joinedMeaning = joinify(meaning);
+		const joinedRemarks = joinify(remarks);
+
 		return (
 			<React.Fragment>
 				<div className="detailed-word-word">{logogram}</div>
 				<div className="detailed-word-pinyin">{characters.map((c) => c.pinyin)}</div>
-				{meaning && (
+				{joinedMeaning && (
 					<div className="detailed-word-meaning">
 						<strong>Meaning: </strong>
-						{joinify(meaning)}
+						{joinedMeaning}
 					</div>
 				)}
-				{remarks && (
+				{joinedRemarks && (
 					<div className="detailed-word-remarks">
 						<strong>Remarks: </strong>
-						{joinify(remarks)}
+						{joinedRemarks}
 					</div>
 				)}
 			</React.Fragment>
