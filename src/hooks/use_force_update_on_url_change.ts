@@ -6,5 +6,6 @@ export const useForceUpdateOnUrlChange: () => void = () => {
 	React.useEffect(() => {
 		window.addEventListener('popstate', forceUpdate);
 		return () => window.removeEventListener('popstate', forceUpdate);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 };
