@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/ching-chong/static/css/main.3188b1fb.chunk.css",
-    "main.js": "/ching-chong/static/js/main.18592813.chunk.js",
-    "main.js.map": "/ching-chong/static/js/main.18592813.chunk.js.map",
+    "main.js": "/ching-chong/static/js/main.c3455ef0.chunk.js",
+    "main.js.map": "/ching-chong/static/js/main.c3455ef0.chunk.js.map",
     "runtime~main.js": "/ching-chong/static/js/runtime~main.8123b7ad.js",
     "runtime~main.js.map": "/ching-chong/static/js/runtime~main.8123b7ad.js.map",
     "static/js/2.048b405c.chunk.js": "/ching-chong/static/js/2.048b405c.chunk.js",
     "static/js/2.048b405c.chunk.js.map": "/ching-chong/static/js/2.048b405c.chunk.js.map",
     "index.html": "/ching-chong/index.html",
-    "precache-manifest.00b847a4b91aa129dfe3e72495d7a636.js": "/ching-chong/precache-manifest.00b847a4b91aa129dfe3e72495d7a636.js",
+    "precache-manifest.219bc316440f008d11041a4d469338a6.js": "/ching-chong/precache-manifest.219bc316440f008d11041a4d469338a6.js",
     "service-worker.js": "/ching-chong/service-worker.js",
     "static/css/main.3188b1fb.chunk.css.map": "/ching-chong/static/css/main.3188b1fb.chunk.css.map"
   }
