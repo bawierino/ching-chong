@@ -10,7 +10,7 @@ const rawCharacters: RawCharactersObject = {
 	你: { meaning: 'you', pinyin: 'nǐ' },
 	好: { meaning: 'good', pinyin: 'hǎo' },
 	再: { pinyin: 'zài', meaning: [ 'again', 'once more' ] },
-	见: { pinyin: 'jiàn', remarks: [ 'to meet' ] },
+	见: { pinyin: 'jiàn', meaning: [ 'to meet' ] },
 	零: { meaning: '0', pinyin: 'líng' },
 	一: { meaning: '1', pinyin: 'yī' },
 	二: { meaning: '2', pinyin: 'èr' },
