@@ -1,99 +1,26 @@
 import * as React from 'react';
 import { Word } from '../../data/structures/word';
-import { useCheckbox } from '../../hooks/use_checkbox';
-import { useTextInput } from '../../hooks/use_text_input';
 import { routerService } from '../../services/router_service';
 import { DetailedWordCardComponent } from '../detailed_word_card_component';
 import { WordCardComponent } from '../word_card_component';
+import { FilterBar, getFilterBarApi } from './filter_bar';
 import { useIntuitiveFilterPageScrolling } from './use_intuitive_filter_page_scrolling';
-import { usePageFilter } from './use_page_filter';
+import { useForceUpdate } from '../../hooks/use_force_update';
+import { useForceUpdateOnUrlChange } from '../../hooks/use_force_update_on_url_change';
 
 export function FilterPageComponent(words: Word[]): JSX.Element {
+	const forceUpdate = useForceUpdate();
+	useForceUpdateOnUrlChange();
+
 	const hasDetailedWord = routerService.hasPath();
 
+	const { getResults, shouldHideMeaning, shouldHidePinYin } = getFilterBarApi();
+
+	const results = !!getResults ? getFilterBarApi().getResults() : words;
+	const hidePinYin = !!shouldHidePinYin ? shouldHidePinYin() : false;
+	const hideMeaning = !!shouldHideMeaning ? shouldHideMeaning() : false;
+
 	const { saveScrollTop } = useIntuitiveFilterPageScrolling(!hasDetailedWord);
-
-	const meaningFilterTextInput = useTextInput('');
-	const pinYinFilterTextInput = useTextInput('');
-	const exactPinYinCheckbox = useCheckbox(false);
-	const hidePinYinCheckbox = useCheckbox(false);
-	const hideMeaningCheckbox = useCheckbox(false);
-
-	const results = usePageFilter(
-		[],
-		words,
-		meaningFilterTextInput.value,
-		pinYinFilterTextInput.value,
-		exactPinYinCheckbox.checked
-	);
-
-	function renderPageFilters(): JSX.Element {
-		return (
-			<div className="filter-bar">
-				{hasDetailedWord ? (
-					<button onClick={routerService.navigateBack}>←</button>
-				) : (
-					<React.Fragment>
-						{
-							<button disabled={!canResetFilters()} onClick={resetFilters}>
-								Reset filters
-							</button>
-						}
-						<input
-							placeholder="Filter by meaning"
-							onChange={meaningFilterTextInput.onChange}
-							value={meaningFilterTextInput.value}
-							type={meaningFilterTextInput.type}
-						/>
-						<input
-							placeholder="Filter by pin yin"
-							onChange={pinYinFilterTextInput.onChange}
-							value={pinYinFilterTextInput.value}
-							type={pinYinFilterTextInput.type}
-						/>
-						<input
-							checked={exactPinYinCheckbox.checked}
-							type={exactPinYinCheckbox.type}
-							onChange={exactPinYinCheckbox.onChange}
-							title="Enable exact pinyin filtering. Ignores tones."
-						/>
-						<input
-							checked={hidePinYinCheckbox.checked}
-							type={hidePinYinCheckbox.type}
-							onChange={hidePinYinCheckbox.onChange}
-							title="Hide pinyin"
-						/>
-						<input
-							checked={hideMeaningCheckbox.checked}
-							type={hideMeaningCheckbox.type}
-							onChange={hideMeaningCheckbox.onChange}
-							title="Hide meaning"
-						/>
-					</React.Fragment>
-				)}
-			</div>
-		);
-	}
-
-	function canResetFilters(): boolean {
-		return (
-			!!meaningFilterTextInput.value ||
-			!!pinYinFilterTextInput.value ||
-			!!exactPinYinCheckbox.checked ||
-			!!hideMeaningCheckbox.checked ||
-			!!hidePinYinCheckbox.checked
-		);
-	}
-
-	function resetFilters(): void {
-		if (canResetFilters()) {
-			meaningFilterTextInput.setValue('');
-			pinYinFilterTextInput.setValue('');
-			exactPinYinCheckbox.setChecked(false);
-			hidePinYinCheckbox.setChecked(false);
-			hideMeaningCheckbox.setChecked(false);
-		}
-	}
 
 	function renderResults(): JSX.Element {
 		return (
@@ -107,8 +34,8 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 						}}
 						{...result}
 						key={result.id}
-						hidePinYin={hidePinYinCheckbox.checked}
-						hideMeaning={hideMeaningCheckbox.checked}
+						hidePinYin={hidePinYin}
+						hideMeaning={hideMeaning}
 					/>
 				))}
 			</React.Fragment>
@@ -120,7 +47,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 			const id = getDetailedWordId();
 			return <DetailedWordCardComponent word={getWordById(id)} id={id} onSubCharacterClick={handleCardClick} />;
 		} else {
-			return <React.Fragment />;
+			return undefined;
 		}
 	}
 
@@ -154,7 +81,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 	return (
 		<React.Fragment>
 			<div className="filter-page">
-				{renderPageFilters()}
+				<FilterBar isBackButtonMode={hasDetailedWord} words={words} onFiltersChanged={forceUpdate} />
 				<div className="words">{hasDetailedWord ? renderDetailedWord() : renderResults()} </div>
 			</div>
 		</React.Fragment>

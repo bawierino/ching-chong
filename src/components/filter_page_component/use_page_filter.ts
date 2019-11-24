@@ -1,6 +1,7 @@
 import { Word } from '../../data/structures/word';
 import { joinify } from '../../utils/joinify';
 import * as React from 'react';
+import { hashify } from '../../utils/hashify';
 
 export const usePageFilter: (
 	initialResults: Word[],
@@ -8,7 +9,7 @@ export const usePageFilter: (
 	meaningFilterValue: string,
 	pinYinFilterValue: string,
 	useExactPinYin: boolean
-) => Word[] = (
+) => { results: Word[]; resultsHash: string } = (
 	initialResults: Word[],
 	words: Word[],
 	meaningFilterValue: string,
@@ -52,5 +53,6 @@ export const usePageFilter: (
 		},
 		[ results, useExactPinYin, meaningFilterValue, pinYinFilterValue, words ]
 	);
-	return results;
+	const resultsHash = hashify(JSON.stringify(results));
+	return { results, resultsHash };
 };

@@ -9,6 +9,7 @@ class RouterService {
 
 	public navigateToPath(path: string): void {
 		window.history.pushState(undefined, '', `/${this.firstPathParameter}/${path}`);
+		window.dispatchEvent(new Event('popstate'));
 	}
 
 	public navigateBack(): void {
