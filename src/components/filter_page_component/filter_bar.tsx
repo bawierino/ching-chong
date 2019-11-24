@@ -4,31 +4,18 @@ import { useCheckbox } from '../../hooks/use_checkbox';
 import { useTextInput } from '../../hooks/use_text_input';
 import { routerService } from '../../services/router_service';
 import { usePageFilter } from './use_page_filter';
+import { useFilterChangeNotifications } from './use_filter_change_notifications';
 
 export interface FilterBarProps {
 	isBackButtonMode: boolean;
 	words: Word[];
-	onFiltersChanged: () => void;
+	onResultsChanged: (results: Word[]) => void;
+	onHidePinYinChanged: (checked: boolean) => void;
+	onHideMeaningChanged: (checked: boolean) => void;
 }
-
-export interface FilterBarApi {
-	getResults: () => Word[];
-	shouldHidePinYin: () => boolean;
-	shouldHideMeaning: () => boolean;
-}
-
-const filterBarApi: FilterBarApi = { getResults: undefined, shouldHideMeaning: undefined, shouldHidePinYin: undefined };
-const setFilterBarApi: (api: FilterBarApi) => void = (api) => {
-	filterBarApi.getResults = api.getResults;
-	filterBarApi.shouldHideMeaning = api.shouldHideMeaning;
-	filterBarApi.shouldHidePinYin = api.shouldHidePinYin;
-};
-export const getFilterBarApi: () => FilterBarApi = () => {
-	return filterBarApi;
-};
 
 export function FilterBar(props: FilterBarProps): JSX.Element {
-	const { isBackButtonMode, words, onFiltersChanged } = props;
+	const { isBackButtonMode, words, onResultsChanged, onHideMeaningChanged, onHidePinYinChanged } = props;
 
 	const meaningFilterTextInput = useTextInput('');
 	const pinYinFilterTextInput = useTextInput('');
@@ -44,13 +31,11 @@ export function FilterBar(props: FilterBarProps): JSX.Element {
 		exactPinYinCheckbox.checked
 	);
 
-	setFilterBarApi({
-		getResults: () => results,
-		shouldHidePinYin: () => hidePinYinCheckbox.checked,
-		shouldHideMeaning: () => hideMeaningCheckbox.checked
-	});
-
-	React.useEffect(onFiltersChanged, [ resultsHash, hidePinYinCheckbox.checked, hideMeaningCheckbox.checked ]);
+	useFilterChangeNotifications(
+		{ onResultsChanged, results, resultsHash },
+		{ checked: hideMeaningCheckbox.checked, onHideMeaningChanged },
+		{ checked: hidePinYinCheckbox.checked, onHidePinYinChanged }
+	);
 
 	function canResetFilters(): boolean {
 		return (
