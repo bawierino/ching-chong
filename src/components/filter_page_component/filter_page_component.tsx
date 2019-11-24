@@ -2,16 +2,16 @@ import * as React from 'react';
 import { Word } from '../../data/structures/word';
 import { useCheckbox } from '../../hooks/use_checkbox';
 import { useTextInput } from '../../hooks/use_text_input';
+import { routerService } from '../../services/router_service';
 import { DetailedWordCardComponent } from '../detailed_word_card_component';
 import { WordCardComponent } from '../word_card_component';
+import { useIntuitiveFilterPageScrolling } from './use_intuitive_filter_page_scrolling';
 import { usePageFilter } from './use_page_filter';
-import { routerService } from '../../services/router_service';
-import { useScrollTopPersistance } from '../../hooks/use_scroll_top_persistance';
 
 export function FilterPageComponent(words: Word[]): JSX.Element {
 	const hasDetailedWord = routerService.hasPath();
 
-	const { saveScrollTop } = useScrollTopPersistance(!hasDetailedWord);
+	const { saveScrollTop } = useIntuitiveFilterPageScrolling(!hasDetailedWord);
 
 	const meaningFilterTextInput = useTextInput('');
 	const pinYinFilterTextInput = useTextInput('');
@@ -118,15 +118,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 	function renderDetailedWord(): JSX.Element {
 		if (hasDetailedWord) {
 			const id = getDetailedWordId();
-			return (
-				<DetailedWordCardComponent
-					word={getWordById(id)}
-					id={id}
-					onSubCharacterClick={(id) => {
-						handleCardClick(id);
-					}}
-				/>
-			);
+			return <DetailedWordCardComponent word={getWordById(id)} id={id} onSubCharacterClick={handleCardClick} />;
 		} else {
 			return <React.Fragment />;
 		}
@@ -150,7 +142,6 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 
 	function handleCardClick(id: string): void {
 		routerService.navigateToPath(id);
-		document.documentElement.scrollTop = 0;
 	}
 
 	function getDetailedWordId(): string {
