@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Word } from '../data/structures/word';
 import { joinify } from '../utils/joinify';
-import { WordCardComponent } from './word_card_component';
+import { canSpeechSynthesify, speechSynthesify } from '../utils/speech_synthesify';
 import { LoudspeakerIconComponent } from './loudspeaker_icon_component';
-import { speechSynthesify, canSpeechSynthesify } from '../utils/speech_synthesify';
+import { WordCardComponent } from './word_card_component';
 
 export interface DetailedWordCardComponentProps {
 	word: Word;
@@ -41,17 +41,17 @@ export function DetailedWordCardComponent(props: DetailedWordCardComponentProps)
 		return characters.length > 1;
 	}
 
-	function renderCharacterInformation(): JSX.Element {
+	function renderCharactersInformation(): JSX.Element {
 		return (
 			<div className="words">
-				{characters.map((c) => (
+				{characters.map((c, index) => (
 					<WordCardComponent
 						id={c.id}
 						onClick={onSubCharacterClick}
 						characters={[ c ]}
 						meaning={c.meaning}
 						remarks={c.remarks}
-						key={c.id}
+						key={c.id + index + word.id}
 						hideMeaning={false}
 						hidePinYin={false}
 					/>
@@ -72,7 +72,7 @@ export function DetailedWordCardComponent(props: DetailedWordCardComponentProps)
 				)}
 				{renderWordDetails()}
 			</div>
-			{isMultiCharacterWord() && renderCharacterInformation()}
+			{isMultiCharacterWord() && renderCharactersInformation()}
 		</React.Fragment>
 	);
 }

@@ -20,8 +20,8 @@ export function WordCardComponent(props: WordCardComponentProps): JSX.Element {
 			}}
 		>
 			<div className="characters">
-				{characters.map((c) => (
-					<div key={c.id} className="character">
+				{characters.map((c, index) => (
+					<div key={c.id + props.id + index} className="character">
 						{c.logogram}
 					</div>
 				))}
