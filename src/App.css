@@ -30,12 +30,6 @@
 	margin: 0px 8px;
 }
 
-.character {
-	display: inline-block;
-	position: relative;
-	font-size: 32px;
-}
-
 .words {
 	flex-wrap: wrap;
 	display: flex;
@@ -71,6 +65,10 @@
 
 .word-meaning {
 	font-size: 14px;
+}
+
+.characters {
+	font-size: 32px;
 }
 
 .word.detailed {

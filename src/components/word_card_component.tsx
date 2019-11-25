@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Word } from '../data/structures/word';
 import { joinify } from '../utils/joinify';
+import { logogramify } from '../utils/logogramify';
+import { pinyinify } from '../utils/pinyinify';
 
 export interface WordCardComponentProps extends Word {
 	onClick: (word: string) => void;
@@ -10,7 +12,7 @@ export interface WordCardComponentProps extends Word {
 }
 
 export function WordCardComponent(props: WordCardComponentProps): JSX.Element {
-	const { characters, onClick, hideMeaning, hidePinYin } = props;
+	const { onClick, hideMeaning, hidePinYin, meaning } = props;
 
 	return (
 		<div
@@ -19,15 +21,9 @@ export function WordCardComponent(props: WordCardComponentProps): JSX.Element {
 				onClick(props.id);
 			}}
 		>
-			<div className="characters">
-				{characters.map((c, index) => (
-					<div key={c.id + props.id + index} className="character">
-						{c.logogram}
-					</div>
-				))}
-			</div>
-			{!hidePinYin && <div>{characters.map((character) => character.pinyin)}</div>}
-			{!hideMeaning && <div className="word-meaning">{joinify(props.meaning)}</div>}
+			<div className="characters">{logogramify(props)}</div>
+			{!hidePinYin && <div>{pinyinify(props)}</div>}
+			{!hideMeaning && <div className="word-meaning">{joinify(meaning)}</div>}
 		</div>
 	);
 }

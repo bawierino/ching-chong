@@ -4,6 +4,8 @@ import { joinify } from '../utils/joinify';
 import { canSpeechSynthesify, speechSynthesify } from '../utils/speech_synthesify';
 import { LoudspeakerIconComponent } from './loudspeaker_icon_component';
 import { WordCardComponent } from './word_card_component';
+import { pinyinify } from '../utils/pinyinify';
+import { logogramify } from '../utils/logogramify';
 
 export interface DetailedWordCardComponentProps {
 	word: Word;
@@ -14,7 +16,7 @@ export interface DetailedWordCardComponentProps {
 export function DetailedWordCardComponent(props: DetailedWordCardComponentProps): JSX.Element {
 	const { word, onSubCharacterClick } = props;
 	const { characters, meaning, remarks } = word;
-	const logogram = characters.map((c) => c.logogram).join('');
+	const logogram = logogramify(word);
 
 	function renderWordDetails(): JSX.Element {
 		const joinedMeaning = joinify(meaning);
@@ -23,7 +25,7 @@ export function DetailedWordCardComponent(props: DetailedWordCardComponentProps)
 		return (
 			<React.Fragment>
 				<div className="detailed-word-word">{logogram}</div>
-				<div className="detailed-word-pinyin">{characters.map((c) => c.pinyin)}</div>
+				<div className="detailed-word-pinyin">{pinyinify(word)}</div>
 				{joinedMeaning && (
 					<div className="detailed-word-meaning">
 						<strong>Meaning: </strong>
