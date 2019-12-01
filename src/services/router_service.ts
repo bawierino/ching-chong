@@ -1,5 +1,5 @@
 class RouterService {
-	private readonly firstPathParameter: string = 'ching-chong';
+	private readonly firstPathParameter: string = 'ezpzchinez';
 
 	public initialize(): void {
 		if (!document.location.pathname.startsWith(`/${this.firstPathParameter}`)) {
