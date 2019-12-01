@@ -1,6 +1,5 @@
-import { Word } from '../../data/structures/word';
-import { joinify } from '../../utils/joinify';
 import * as React from 'react';
+import { Word } from '../../data/structures/word';
 import { hashify } from '../../utils/hashify';
 
 export const usePageFilter: (
@@ -17,6 +16,11 @@ export const usePageFilter: (
 	useExactPinYin: boolean
 ) => {
 	const [ results, setResults ] = React.useState(initialResults);
+
+	function prepareMeaning(meaning: string[] | string): string {
+		return [].concat(meaning).join('');
+	}
+
 	React.useEffect(
 		() => {
 			let searchResults: Word[] = words;
@@ -25,7 +29,7 @@ export const usePageFilter: (
 				const searchTerm: string = meaningFilterValue.toLowerCase().replace(/ /g, '');
 
 				searchResults = searchResults.filter((word) => {
-					const candidate: string = (joinify(word.meaning) || '').toLowerCase().replace(/ /g, '');
+					const candidate: string = (prepareMeaning(word.meaning) || '').toLowerCase().replace(/ /g, '');
 					return candidate.includes(searchTerm);
 				});
 			}
