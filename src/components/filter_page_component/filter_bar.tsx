@@ -59,47 +59,49 @@ export function FilterBar(props: FilterBarProps): JSX.Element {
 
 	return (
 		<div className="filter-bar">
-			{isBackButtonMode ? (
-				<button onClick={routerService.navigateBack}>←</button>
-			) : (
-				<React.Fragment>
-					{
-						<button disabled={!canResetFilters()} onClick={resetFilters}>
-							Reset filters
-						</button>
-					}
-					<input
-						placeholder="Filter by meaning"
-						onChange={meaningFilterTextInput.onChange}
-						value={meaningFilterTextInput.value}
-						type={meaningFilterTextInput.type}
-					/>
-					<input
-						placeholder="Filter by pin yin"
-						onChange={pinYinFilterTextInput.onChange}
-						value={pinYinFilterTextInput.value}
-						type={pinYinFilterTextInput.type}
-					/>
-					<input
-						checked={exactPinYinCheckbox.checked}
-						type={exactPinYinCheckbox.type}
-						onChange={exactPinYinCheckbox.onChange}
-						title="Enable exact pinyin filtering. Ignores tones."
-					/>
-					<input
-						checked={hidePinYinCheckbox.checked}
-						type={hidePinYinCheckbox.type}
-						onChange={hidePinYinCheckbox.onChange}
-						title="Hide pinyin"
-					/>
-					<input
-						checked={hideMeaningCheckbox.checked}
-						type={hideMeaningCheckbox.type}
-						onChange={hideMeaningCheckbox.onChange}
-						title="Hide meaning"
-					/>
-				</React.Fragment>
-			)}
+			<div className="filter-bar-content">
+				{isBackButtonMode ? (
+					<button onClick={routerService.navigateBack}>←</button>
+				) : (
+					<React.Fragment>
+						{
+							<button disabled={!canResetFilters()} onClick={resetFilters}>
+								Reset filters
+							</button>
+						}
+						<input
+							placeholder="Filter by meaning"
+							onChange={meaningFilterTextInput.onChange}
+							value={meaningFilterTextInput.value}
+							type={meaningFilterTextInput.type}
+						/>
+						<input
+							placeholder="Filter by pin yin"
+							onChange={pinYinFilterTextInput.onChange}
+							value={pinYinFilterTextInput.value}
+							type={pinYinFilterTextInput.type}
+						/>
+						<input
+							checked={exactPinYinCheckbox.checked}
+							type={exactPinYinCheckbox.type}
+							onChange={exactPinYinCheckbox.onChange}
+							title="Enable exact pinyin filtering. Ignores tones."
+						/>
+						<input
+							checked={hidePinYinCheckbox.checked}
+							type={hidePinYinCheckbox.type}
+							onChange={hidePinYinCheckbox.onChange}
+							title="Hide pinyin"
+						/>
+						<input
+							checked={hideMeaningCheckbox.checked}
+							type={hideMeaningCheckbox.type}
+							onChange={hideMeaningCheckbox.onChange}
+							title="Hide meaning"
+						/>
+					</React.Fragment>
+				)}
+			</div>
 		</div>
 	);
 }
