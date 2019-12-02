@@ -13,12 +13,12 @@ export const WordsCardsComponent: (props: WordsCardsComponentProps) => JSX.Eleme
 	const { words, onClickCard, hideMeaning, hidePinYin } = props;
 	return (
 		<React.Fragment>
-			{words.map((word) => (
+			{words.map((word, index) => (
 				<WordCardComponent
 					id={word.id}
 					onClick={onClickCard}
 					{...word}
-					key={word.id}
+					key={word.id + index}
 					hidePinYin={hidePinYin}
 					hideMeaning={hideMeaning}
 				/>
