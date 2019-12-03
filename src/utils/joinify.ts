@@ -1,3 +1,3 @@
-export function joinify(strings: undefined | string | string[]): string | undefined {
-	return Array.isArray(strings) ? strings.join(', ') : strings;
+export function joinify(strings: string | string[]): string {
+	return [].concat(strings).join(', ');
 }
