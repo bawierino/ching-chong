@@ -3,9 +3,8 @@ class RouterService {
 
 	public initialize(): void {
 		const { hash } = document.location;
-		if (!document.location.pathname.startsWith(`/${this.firstPathParameter}`)) {
-			window.history.replaceState(undefined, '', `/${this.firstPathParameter}${hash}`);
-		}
+		window.history.replaceState(undefined, '', `/${this.firstPathParameter}${hash}`);
+
 		if (performance.navigation.type !== 1 && this.hasHash()) {
 			// not reloading page and the page has a hash
 			// use case: send specific word to focus via url
