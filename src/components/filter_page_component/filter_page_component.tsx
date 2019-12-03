@@ -10,7 +10,7 @@ import { useIntuitiveFilterPageScrolling } from './use_intuitive_filter_page_scr
 export function FilterPageComponent(words: Word[]): JSX.Element {
 	useForceUpdateOnUrlChange();
 
-	const hasDetailedWord = routerService.hasPath();
+	const hasDetailedWord = routerService.hasHash();
 
 	const { saveScrollTop } = useIntuitiveFilterPageScrolling(!hasDetailedWord);
 
@@ -44,12 +44,12 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 	}
 
 	function handleCardClick(id: string): void {
-		routerService.navigateToPath(id);
+		routerService.navigateToHash(id);
 	}
 
 	function getDetailedWordId(): string {
 		if (hasDetailedWord) {
-			return routerService.getPath();
+			return routerService.getHash();
 		}
 		return undefined;
 	}

@@ -7,8 +7,8 @@ class RouterService {
 		}
 	}
 
-	public navigateToPath(path: string): void {
-		window.history.pushState(undefined, '', `/${this.firstPathParameter}/${path}`);
+	public navigateToHash(path: string): void {
+		window.history.pushState(undefined, '', `/${this.firstPathParameter}#${path}`);
 		window.dispatchEvent(new Event('popstate'));
 	}
 
@@ -16,13 +16,14 @@ class RouterService {
 		window.history.back();
 	}
 
-	public hasPath(): boolean {
-		return document.location.pathname.replace(`/${this.firstPathParameter}`, '').length > 1;
+	public hasHash(): boolean {
+		const partAfterHash = document.location.hash.replace(`#`, '');
+		return partAfterHash.length > 1;
 	}
 
-	public getPath(): string {
-		if (this.hasPath()) {
-			return document.location.pathname.split('/')[2];
+	public getHash(): string {
+		if (this.hasHash()) {
+			return document.location.hash.split('#')[1];
 		}
 
 		return undefined;
