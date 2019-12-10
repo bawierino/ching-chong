@@ -220,7 +220,8 @@ const rawCharacters: RawCharactersObject = {
     信: { meaning: ["letter", "mail"], pinyin: "xìn" },
     仙: { meaning: ["immortal"], pinyin: "xiān" },
     伙: { meaning: ["companion", "partner", "group"], pinyin: "huǒ" },
-    佛: { meaning: ["Buddha", "Buddhism"], pinyin: "fó" }
+    佛: { meaning: ["Buddha", "Buddhism"], pinyin: "fó" },
+    的: { meaning: ["suffix to express possession"], pinyin: "de" }
 };
 
 function buildCharacters(rawCharacters: RawCharactersObject): CharacterObject {
