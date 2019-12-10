@@ -11,7 +11,7 @@
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6",
 		"react-scripts": "3.0.1",
-		"typescript": "3.5.2"
+		"typescript": "^3.7.3"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -36,5 +36,8 @@
 			"last 1 safari version"
 		]
 	},
-	"homepage": "https://bawierino.github.io/ezpzchinez"
+	"homepage": "https://bawierino.github.io/ezpzchinez",
+	"devDependencies": {
+		"prettier": "^1.19.1"
+	}
 }

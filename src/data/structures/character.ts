@@ -1,6 +1,6 @@
-import { Construct } from './construct';
+import { Construct } from "./construct";
 
 export interface Character extends Construct {
-	logogram: string;
-	pinyin: string;
+    logogram: string;
+    pinyin: string;
 }

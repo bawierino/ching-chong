@@ -1,5 +1,5 @@
 export interface Construct {
-	meaning?: string | string[];
-	remarks?: string | string[];
-	id: string;
+    meaning?: string | string[];
+    remarks?: string | string[];
+    id: string;
 }
