@@ -6,6 +6,7 @@ import { DetailedWordCardComponent } from "../detailed_word_card_component";
 import { WordsCardsComponent } from "../word_cards_component";
 import { FilterBar } from "./filter_bar";
 import { useIntuitiveFilterPageScrolling } from "./use_intuitive_filter_page_scrolling";
+import { filterPageStyle } from "./filter_page_component.style";
 
 export function FilterPageComponent(words: Word[]): JSX.Element {
     useForceUpdateOnUrlChange();
@@ -62,7 +63,7 @@ export function FilterPageComponent(words: Word[]): JSX.Element {
 
     return (
         <React.Fragment>
-            <div className="filter-page">
+            <div className={filterPageStyle}>
                 <FilterBar
                     isBackButtonMode={hasDetailedWord}
                     words={words}

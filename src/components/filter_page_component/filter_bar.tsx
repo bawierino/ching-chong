@@ -3,8 +3,9 @@ import { Word } from "../../data/structures/word";
 import { useCheckbox } from "../../hooks/use_checkbox";
 import { useTextInput } from "../../hooks/use_text_input";
 import { routerService } from "../../services/router_service";
-import { usePageFilter } from "./use_page_filter";
 import { useFilterChangeNotifications } from "./use_filter_change_notifications";
+import { usePageFilter } from "./use_page_filter";
+import { filterBarStyle } from "./filter_bar.style";
 
 export interface FilterBarProps {
     isBackButtonMode: boolean;
@@ -58,7 +59,7 @@ export function FilterBar(props: FilterBarProps): JSX.Element {
     }
 
     return (
-        <div className="filter-bar">
+        <div className={filterBarStyle}>
             <div className="filter-bar-content">
                 {isBackButtonMode ? (
                     <button onClick={routerService.navigateBack}>←</button>
