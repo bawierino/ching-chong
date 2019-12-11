@@ -84,12 +84,3 @@
         font-size: 0.9em;
     }
 }
-
-.loudspeaker {
-    position: absolute;
-    top: 16px;
-    right: 24px;
-    height: 28px;
-    width: 28px;
-    cursor: pointer;
-}
